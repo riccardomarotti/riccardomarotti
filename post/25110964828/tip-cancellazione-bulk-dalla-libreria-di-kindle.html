@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Tip: cancellazione “bulk” dalla libreria di Kindle - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2012-06-14T22:43:00+02:00">
+        June 14, 2012
+      </abbr>
+      <h2 class="instapaper_title">Tip: cancellazione “bulk” dalla libreria di Kindle</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>L'interfaccia della <a href="http://www.amazon.it/gp/digital/fiona/manage">libreria di Kindle</a> permette di cancellare soltanto un documento per volta.
+Questo rende, di fatto, impossibile la cancellazione di più di 50 elementi.</p>
+<p>Per ovviare a questa limitazione è possibile utilizzare questo <em>hack</em>.</p>
+<p>Anzitutto, filtrare i documenti in modo che siano visualizzati soltanto quelli che si vogliono cancellare (nel mio caso erano tutti gli articoli inviati da <a href="http://www.instapaper.com/">Instapaper</a>):</p>
+<p><img alt="KindleList" src="/images/kindle.png" /></p>
+<p>Poi aprire la console di Javascript ed eseguire questo codice:</p>
+<div class="highlight"><pre><span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;[name=&quot;contentName&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">element</span><span class="p">){</span>
+    <span class="nx">Fion</span><span class="p">.</span><span class="nx">deleteItem</span><span class="p">(</span><span class="s1">&#39;deleteItem_&#39;</span> <span class="o">+</span> <span class="nx">element</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p><br/>
+Verranno cancellati <strong>tutti gli elementi correntemente visualizzati</strong>.
+<hr/></p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/tips/">Tips</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/kindle/">Kindle</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/25110964828/tip-cancellazione-bulk-dalla-libreria-di-kindle/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

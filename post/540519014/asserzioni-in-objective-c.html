@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Asserzioni in Objective C - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2010-04-22T13:09:00+02:00">
+        April 22, 2010
+      </abbr>
+      <h2 class="instapaper_title">Asserzioni in Objective C</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>Da una <a href="http://blogs.ugidotnet.org/AntonioGanci/archive/2010/04/19/un-approccio-per-ottenere-una-architettura-malleabile.aspx#feedback">discussione</a> in un post di <a href="http://blogs.ugidotnet.org/AntonioGanci/Default.aspx">Antonio</a>, mi sono accorto che i matcher usati in Objective C non sfruttano l’espressività del linguagggio.</p>
+<p>Le assert di <a href="http://www.sente.ch/software/ocunit/">OCUnit</a> sono cose del tipo:</p>
+<div class="highlight"><pre><span class="n">STAssertNotNil</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">@&quot;messsage&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>La libreria <a href="http://code.google.com/p/hamcrest/">Hamcrest</a> addolcisce un po’ la sintassi:</p>
+<div class="highlight"><pre><span class="n">AssertThat</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">isNot</span><span class="p">(</span><span class="nb">nil</span><span class="p">));</span>
+</pre></div>
+
+
+<p>Hamcrest, però, non è altro che un porting di una libreria Java, per cui utilizza la sintassi che ti permette di usare Java.</p>
+<p>In virtù della sua parentela con Smalltalk, Objective C è molto più espressivo di così, e permette di fare cose del tipo:</p>
+<div class="highlight"><pre><span class="p">[</span><span class="n">Assert</span> <span class="nl">that</span><span class="p">:</span><span class="n">object</span> <span class="nl">isNot</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</pre></div>
+
+
+<p>Non è meglio?</p>
+<p>Per l’implementazione, si tratta di creare il metodo <code>that:IsNot:</code> sulla classe <code>Assert</code>, nulla di più.</p>
+<p>Ho intenzione di usare qualcosa del genere nei miei progetti.</p>
+<p>Voi cosa ne pensate?</p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/spunti-di-riflessione/">Spunti di riflessione</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/objective-c/">Objective C</a> <a href="http://blog.riccardomarotti.com/tag/robe-da-nerd/">Robe da nerd</a> <a href="http://blog.riccardomarotti.com/tag/unit-test/">Unit test</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/540519014/asserzioni-in-objective-c/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

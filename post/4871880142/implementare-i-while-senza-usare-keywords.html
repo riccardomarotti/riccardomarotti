@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Implementare i while senza usare keywords - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2011-04-23T00:00:00+02:00">
+        April 23, 2011
+      </abbr>
+      <h2 class="instapaper_title">Implementare i while senza usare keywords</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>Da una discussione con <a href="http://blogs.ugidotnet.org/AntonioGanci/Default.aspx">Antonio</a> su come implementare il concetto di ciclo while nel tool di programmazione a oggetti su cui stiamo lavorando, è risultato che non serve creare costrutti sintattici particolari, ma basta un utilizzo oculato dei blocchi.</p>
+<p>Come sempre, l’ispirazione arriva da Smalltalk.</p>
+<p>Un esempio tipico di ciclo while è rappresentato dal fattoriale. Vediamone il calcolo per il numero 5, in Ruby:</p>
+<div class="highlight"><pre> <span class="n">count</span> <span class="o">=</span> <span class="mi">5</span>
+ <span class="n">fattoriale</span> <span class="o">=</span> <span class="mi">1</span>
+
+ <span class="k">while</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">do</span>
+     <span class="n">fattoriale</span> <span class="o">=</span> <span class="n">fattoriale</span> <span class="o">*</span> <span class="n">count</span>
+     <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+ <span class="k">end</span>
+
+ <span class="nb">puts</span> <span class="n">fattoriale</span>
+</pre></div>
+
+
+<p>Il <code>while</code> valuta l’espressione passata (count &gt; 0) ed esegue il blocco passato fintanto che tale espressione è vera.</p>
+<p><a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/">Come per gli if</a>, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio <code>while_true</code> alla classe che rappresenta il blocco (cioè <code>Proc</code>), e usarlo in modo del tutto analogo al while:</p>
+<div class="highlight"><pre> <span class="nb">proc</span> <span class="p">{</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span><span class="o">.</span><span class="n">while_true</span> <span class="k">do</span>
+     <span class="n">fattoriale</span> <span class="o">=</span> <span class="n">fattoriale</span> <span class="o">*</span> <span class="n">count</span>
+     <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+ <span class="k">end</span>
+</pre></div>
+
+
+<p>Il blocco anonimo <code>{ count &gt; 0 }</code> è un oggetto che risponde al messaggio <code>while_true</code>.</p>
+<p>L’implementazione di <code>while_true</code> deve essere tale per cui, fintanto che l’esecuzione del blocco restituisce <code>true</code>, viene eseguito il blocco passato come parametro:</p>
+<div class="highlight"><pre> <span class="k">class</span> <span class="nc">Proc</span>
+     <span class="k">def</span> <span class="nf">while_true</span> <span class="o">&amp;</span><span class="n">block</span>
+         <span class="nb">self</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">if_true</span> <span class="k">do</span>
+             <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+             <span class="nb">self</span><span class="o">.</span><span class="n">while_true</span> <span class="o">&amp;</span><span class="n">block</span>
+         <span class="k">end</span>
+     <span class="k">end</span>
+ <span class="k">end</span>
+</pre></div>
+
+
+<p><code>while_true</code> viene invocato ricorsivamente finché l’espressione del blocco che riceve il messaggio non è falsa.</p>
+<p>(Per l’implementazione di <code>if_true</code>, si veda il <a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/">post sugli if</a>).</p>
+<p>Può dare l’impressione di essere una banale modifica sintattica, ma si tratta di una differenza più sostanziale di quanto sembri.</p>
+<p>Gestire i <code>while</code> in questo modo permette di rimuovere una parola chiave, semplificare il linguaggio, e renderlo più object oriented, dato che anche il ciclo while si riduce a uno scambio di messaggi.</p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/programmazione/">Programmazione</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/oop/">OOP</a> <a href="http://blog.riccardomarotti.com/tag/spunti-di-riflessione/">Spunti di riflessione</a> <a href="http://blog.riccardomarotti.com/tag/ruby/">Ruby</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/4871880142/implementare-i-while-senza-usare-keywords/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

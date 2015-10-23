@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Perché Objective C? - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2010-04-26T08:46:00+02:00">
+        April 26, 2010
+      </abbr>
+      <h2 class="instapaper_title">Perché Objective C?</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>Premesso che sono fermamente convinto che</p>
+<blockquote>
+<p>Tools build productivity like keyboards build software.</p>
+</blockquote>
+<p>penso che programmare con Objective C presenti molti vantaggi.</p>
+<p>Ma quali sono le peculiarità che lo rendono migliore della maggioranza degli altri linguaggi?</p>
+<h3>Messaggi</h3>
+<p>Gli oggetti sono manipolati inviando loro messaggi.</p>
+<p>Potrà sembrare banale, ma questo permette di fare cose molto sofisticate, come decidere a run-time come rispondere a un dato messaggio, oppure fare un broadcast del messaggio ad altri oggetti, e molto altro.</p>
+<p>Inoltre, almeno per me, pensare che un programma non è altro che un insieme di oggetti che si inviano messaggi, aiuta a scrivere software migliore, perché fa focalizzare sul comportamento del codice e non sulla sua struttura.</p>
+<h3>Semplicità</h3>
+<p>Di fatto si tratta di C, con in più gli oggetti e la sintassi per inviare messaggi tra loro. Nulla di più.</p>
+<p>Non ha tutte quelle features cosiddette <em>"avanzate"</em>, che ha, per esempio, il C++ (templates, ereditarietà multipla, overloading, e chi più ne ha più ne metta).</p>
+<h3>Espressività</h3>
+<p>La sintassi dell’invio dei messaggi è incredibilmente <a href="/post/540519014/asserzioni-in-objective-c/">espressiva</a>.</p>
+<p>Questo metodo Ruby</p>
+<div class="highlight"><pre><span class="n">str</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>in ObjC diventa</p>
+<div class="highlight"><pre><span class="p">[</span><span class="n">str</span> <span class="nl">insertString</span><span class="p">:</span><span class="s">@&quot;pippo&quot;</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</pre></div>
+
+
+<p>Quale si legge meglio?</p>
+<h3>Dinamico</h3>
+<p>I tipi vengono “risolti” a run-time (la parola chiave “id” significa “qualunque tipo”). Ecco perché non servono overloading &amp; C.</p>
+<h3>Statico</h3>
+<p>Se lo desideri, i tipi sono risolti a “compile-time”: questo evita tutti i problemi dei linguaggi dinamici.</p>
+<hr />
+<p>La maggioranza di queste caratteristiche sono ereditate da Smalltalk: naturalmente penso che Smalltalk sia il miglior linguaggio mai creato ;).</p>
+<p>E allora perché non uso Smalltalk? Perché non mi soddisfa il look and feel delle applicazioni che produce. Essendo cross-platform, ha la sua versione delle finestre, dei bottoni, etc… Non si integra con il sistema.</p>
+<p>Ecco perché la mia scelta è Objective C/Cocoa per le applicazioni desktop, Smalltalk/<a href="http://www.seaside.st/">Seaside</a> per quelle web.</p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/2010/">2010</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/objective-c/">Objective C</a> <a href="http://blog.riccardomarotti.com/tag/smalltalk/">Smalltalk</a> <a href="http://blog.riccardomarotti.com/tag/robe-da-nerd/">Robe da nerd</a> <a href="http://blog.riccardomarotti.com/tag/seaside/">Seaside</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/551290299/perche-objective-c/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Riccardo Marotti</title><link href="http://blog.riccardomarotti.com/" rel="alternate"></link><link href="http://blog.riccardomarotti.com/feeds/programmazione.atom.xml" rel="self"></link><id>http://blog.riccardomarotti.com/</id><updated>2011-04-23T00:00:00+02:00</updated><entry><title>Implementare i while senza usare keywords</title><link href="http://blog.riccardomarotti.com/post/4871880142/implementare-i-while-senza-usare-keywords/" rel="alternate"></link><updated>2011-04-23T00:00:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2011-04-23:post/4871880142/implementare-i-while-senza-usare-keywords/</id><summary type="html">&lt;p&gt;Da una discussione con &lt;a href="http://blogs.ugidotnet.org/AntonioGanci/Default.aspx"&gt;Antonio&lt;/a&gt; su come implementare il concetto di ciclo while nel tool di programmazione a oggetti su cui stiamo lavorando, è risultato che non serve creare costrutti sintattici particolari, ma basta un utilizzo oculato dei blocchi.&lt;/p&gt;
+&lt;p&gt;Come sempre, l’ispirazione arriva da Smalltalk.&lt;/p&gt;
+&lt;p&gt;Un esempio tipico di ciclo while è rappresentato dal fattoriale. Vediamone il calcolo per il numero 5, in Ruby:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+ &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+ &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+     &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;
+     &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+ &lt;span class="k"&gt;end&lt;/span&gt;
+
+ &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;fattoriale&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Il &lt;code&gt;while&lt;/code&gt; valuta l’espressione passata (count &amp;gt; 0) ed esegue il blocco passato fintanto che tale espressione è vera.&lt;/p&gt;
+&lt;p&gt;&lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/"&gt;Come per gli if&lt;/a&gt;, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio &lt;code&gt;while_true&lt;/code&gt; alla classe che rappresenta il blocco (cioè &lt;code&gt;Proc&lt;/code&gt;), e usarlo in modo del tutto analogo al while:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="nb"&gt;proc&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;while_true&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+     &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;
+     &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+ &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Il blocco anonimo &lt;code&gt;{ count &amp;gt; 0 }&lt;/code&gt; è un oggetto che risponde al messaggio &lt;code&gt;while_true&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;L’implementazione di &lt;code&gt;while_true&lt;/code&gt; deve essere tale per cui, fintanto che l’esecuzione del blocco restituisce &lt;code&gt;true&lt;/code&gt;, viene eseguito il blocco passato come parametro:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Proc&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;while_true&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;
+         &lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;if_true&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+             &lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;call&lt;/span&gt;
+             &lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;while_true&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;
+         &lt;span class="k"&gt;end&lt;/span&gt;
+     &lt;span class="k"&gt;end&lt;/span&gt;
+ &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;while_true&lt;/code&gt; viene invocato ricorsivamente finché l’espressione del blocco che riceve il messaggio non è falsa.&lt;/p&gt;
+&lt;p&gt;(Per l’implementazione di &lt;code&gt;if_true&lt;/code&gt;, si veda il &lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/"&gt;post sugli if&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Può dare l’impressione di essere una banale modifica sintattica, ma si tratta di una differenza più sostanziale di quanto sembri.&lt;/p&gt;
+&lt;p&gt;Gestire i &lt;code&gt;while&lt;/code&gt; in questo modo permette di rimuovere una parola chiave, semplificare il linguaggio, e renderlo più object oriented, dato che anche il ciclo while si riduce a uno scambio di messaggi.&lt;/p&gt;</summary><category term="OOP"></category><category term="Spunti di riflessione"></category><category term="Ruby"></category></entry><entry><title>Implementare gli if senza usare keywords</title><link href="http://blog.riccardomarotti.com/post/3181905943/implementare-gli-if-senza-usare-keywords/" rel="alternate"></link><updated>2011-02-08T00:00:00+01:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2011-02-08:post/3181905943/implementare-gli-if-senza-usare-keywords/</id><summary type="html">&lt;p&gt;Lavorando a un tool di sviluppo a oggetti, mi sono trovato a ragionare su quanto sia sbagliato usare la parola chiave &lt;code&gt;if&lt;/code&gt; in un linguaggio a oggetti.&lt;/p&gt;
+&lt;p&gt;Le strutture di controllo come gli &lt;code&gt;if&lt;/code&gt; sono fortemente procedurali e spingono a non programmare a oggetti.&lt;/p&gt;
+&lt;p&gt;Il succo della programmazione a oggetti è l’invio di messaggi; non è un caso se &lt;a href="http://en.wikipedia.org/wiki/Smalltalk"&gt;Smalltalk&lt;/a&gt; (l’unico linguaggio veramente a oggetti che conosco) implementa gli &lt;code&gt;if&lt;/code&gt; come dei messaggi.&lt;/p&gt;
+&lt;p&gt;In Ruby i booleani sono le due classi &lt;code&gt;TrueClass&lt;/code&gt; e &lt;code&gt;FalseClass&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Per ottenere un comportamento simile a quello di Smalltalk, si possono aggiungere i metodi &lt;code&gt;if_true&lt;/code&gt; e &lt;code&gt;if_false&lt;/code&gt; a queste classi:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TrueClass&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;if_true&lt;/span&gt;
+         &lt;span class="k"&gt;yield&lt;/span&gt;
+     &lt;span class="k"&gt;end&lt;/span&gt;
+
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;if_false&lt;/span&gt;
+     &lt;span class="k"&gt;end&lt;/span&gt;
+ &lt;span class="k"&gt;end&lt;/span&gt;
+
+ &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;FalseClass&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;if_true&lt;/span&gt;
+     &lt;span class="k"&gt;end&lt;/span&gt;
+
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;if_false&lt;/span&gt;
+         &lt;span class="k"&gt;yield&lt;/span&gt;
+     &lt;span class="k"&gt;end&lt;/span&gt;
+ &lt;span class="k"&gt;end&lt;/span&gt;
+
+ &lt;span class="n"&gt;aBoolean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+ &lt;span class="n"&gt;aBoolean&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;if_true&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;true!&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+ &lt;span class="c1"&gt;# invece di&lt;/span&gt;
+ &lt;span class="c1"&gt;# print “true!” if aBoolean&lt;/span&gt;
+
+ &lt;span class="n"&gt;aBoolean&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;if_false&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;false!&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+ &lt;span class="c1"&gt;# invece di&lt;/span&gt;
+ &lt;span class="c1"&gt;# print “false!” unless aBoolean&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Il metodo &lt;code&gt;if_true&lt;/code&gt; di &lt;code&gt;TrueClass&lt;/code&gt; esegue il blocco che viene passato, mentre &lt;code&gt;if_false&lt;/code&gt; non fa nulla. La classe &lt;code&gt;FalseClass&lt;/code&gt; ha il comportamento opposto.&lt;/p&gt;
+&lt;p&gt;Il bello di questo approccio è che non c’è nessun &lt;code&gt;if&lt;/code&gt;; è un po’ come uno &lt;a href="http://en.wikipedia.org/wiki/State_pattern"&gt;state pattern&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Non capisco perché in Ruby gli &lt;code&gt;if&lt;/code&gt; non siano stati implementati in maniera analoga (mentre per i cicli è stato fatto): in teoria, qualunque linguaggio che supporti i blocchi permette di non dover creare keywords per le strutture di controllo del flusso.&lt;/p&gt;</summary><category term="OOP"></category><category term="Spunti di riflessione"></category><category term="Preferiti"></category><category term="Ruby"></category></entry><entry><title>Guida TV minimalista</title><link href="http://blog.riccardomarotti.com/post/1215146887/guidatv/" rel="alternate"></link><updated>2010-09-30T00:00:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-09-30:post/1215146887/guidatv/</id><summary type="html">&lt;p&gt;Volevo una singola pagina, che mi permettesse, senza dover cliccare mille link, scrollare pagine lunghissime, o usare applicazione flash dall’usabilità discutibile, di vedere i programmi tv della serata, per tutti canali che mi interessano .&lt;/p&gt;
+&lt;p&gt;Non sono riuscito a trovarla, per cui me la sono fatta, ed è questa:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://guidatv.heroku.com"&gt;http://guidatv.heroku.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;È un’applicazione che raccoglie i dati dei programmi in giro per la rete, e li mostra, si spera senza troppi errori (non sono un mago delle regular expression), in una singola pagina. È anche possibile vedere la programmazione completa dei singoli canali.&lt;/p&gt;
+&lt;p&gt;Questo esercizietto, oltre a fornirmi un servizio che mi mancava, mi ha permesso di scoprire come funziona &lt;a href="http://www.heroku.com/"&gt;Heroku&lt;/a&gt;, che, devo dire, non è niente male.&lt;/p&gt;
+&lt;p&gt;Nella fattispecie, mi ha permesso di pubblicare un’applicazione fatta con &lt;a href="http://camping.rubyforge.org/"&gt;Camping&lt;/a&gt;, con accesso a un database, e un cron giornaliero che aggiorna i dati. Niente male per zero euro.&lt;/p&gt;
+&lt;p&gt;Se qualcuno la trova utile, o la troverebbe utile se solo avesse quella tal feature, può mandarmi una mail, o commentare qui sotto.&lt;/p&gt;</summary><category term="Ruby"></category></entry><entry><title>Migliorare il design grazie agli oggetti immutabili</title><link href="http://blog.riccardomarotti.com/post/711204747/migliorare-il-design-grazie-agli-oggetti-immutabili/" rel="alternate"></link><updated>2010-06-18T00:00:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-06-18:post/711204747/migliorare-il-design-grazie-agli-oggetti-immutabili/</id><summary type="html">&lt;p&gt;In &lt;a href="http://www.erlang.org/"&gt;Erlang&lt;/a&gt; non esistono le variabili a cui siamo abituati. All’interno di uno scope, si può assegnare un valore a una variabile una sola volta. Questo approccio, tipico dei linguaggi funzionali, aiuta a ridurre gli effetti collaterali (side-effects).&lt;/p&gt;
+&lt;p&gt;Una funzione è detta &lt;a href="http://en.wikipedia.org/wiki/Pure_function"&gt;pura&lt;/a&gt;, cioè senza effetti collaterali, se, dato un input, il suo output è sempre lo stesso, indipendentemente dal contesto in cui viene eseguita.&lt;/p&gt;
+&lt;p&gt;Proviamo a trasferire nel mondo a oggetti questi concetti: dato un oggetto immutabile, cioè un oggetto che non può cambiare il suo stato, tutti i suoi metodi che restituiscono un valore saranno funzioni pure.&lt;/p&gt;
+&lt;p&gt;Vediamo cosa accade se usiamo solo oggetti immutabili in un semplice esempio: come rappresentare una traiettoria, cioè un insieme ordinato di punti.&lt;/p&gt;
+&lt;p&gt;La prima cosa che viene in mente, per l’implementazione, è mantenere una lista di punti all’interno di un oggetto e, a ogni chiamata di un metodo, per esempio &lt;code&gt;Move&lt;/code&gt;, viene aggiunto un punto a questa lista:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Trajectory&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)};&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="no"&gt;Move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;CurrentX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;CurrentY&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="no"&gt;CurrentX&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="no"&gt;CurrentY&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Il metodo &lt;code&gt;Move&lt;/code&gt; non è una funzione, ma una procedura; inoltre non è privo di effetti collaterali: se, una volta istanziata la traiettoria, lo invoco N volte con gli stessi parametri, ottengo N cambi di stato.&lt;/p&gt;
+&lt;p&gt;Allora rendiamo la traiettoria un oggetto immutabile.&lt;/p&gt;
+&lt;p&gt;La prima domanda che sorge è: come si gestiscono i cambiamenti di stato? Ogni cambiamento di stato corrisponde alla creazione di un nuovo oggetto.&lt;/p&gt;
+&lt;p&gt;Allora, facciamo in modo che, a ogni chiamata a Move, venga creata una nuova traiettoria:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Trajectory&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;Trajectory&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;points&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)};&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;private&lt;/span&gt; &lt;span class="no"&gt;Trajectory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;Trajectory&lt;/span&gt; &lt;span class="no"&gt;Move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;Trajectory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;CurrentX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;CurrentY&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)});&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="no"&gt;CurrentX&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="no"&gt;CurrentY&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/pre&gt;
+La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiunto.&lt;/p&gt;
+&lt;p&gt;Il nuovo metodo &lt;code&gt;Move&lt;/code&gt; è diventato una funzione pura: una volta istanziata una traiettoria, invocandolo N volte con gli stessi parametri, ottengo sempre lo stesso risultato. Tant’è che la nuova traiettoria è un oggetto immutabile.&lt;/p&gt;
+&lt;p&gt;Il prossimo passo è rendere questo codice più object oriented. Perché non lo è tanto? Vengono usati tre oggetti: &lt;code&gt;Trajectory&lt;/code&gt;, &lt;code&gt;Point&lt;/code&gt; e &lt;code&gt;List&lt;/code&gt;. Però Point e List non fanno nulla: si limitano a mantenere uno stato &lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;. Da notare che è stata l’introduzione dell’immutabilità che ha rimosso l’unica azione fatta dall’oggetto &lt;code&gt;List&lt;/code&gt;, cioè la chiamata al metodo &lt;code&gt;Add&lt;/code&gt;, evidenziandone l’inutilità.&lt;/p&gt;
+&lt;p&gt;L’unico comportamento presente è quello rappresentato dal metodo &lt;code&gt;Move&lt;/code&gt;. Quindi dovrà esserci un solo tipo di oggetto, che implementi il metodo Move e mantenga lo stato dei punti.&lt;/p&gt;
+&lt;p&gt;Questo è un possibile approccio: cominciamo con un’interfaccia &lt;code&gt;IPoint&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="no"&gt;Move&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si vede che il metodo &lt;code&gt;Move&lt;/code&gt; restiruisce un punto, questo perché, a ogni sua invocazione, per mantenere l’immutabilità, se ne deve creare uno nuovo.&lt;/p&gt;
+&lt;p&gt;Definiamo il punto iniziale, cioè quello di coordinate (0,0):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;StartPoint&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="no"&gt;Move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;RelativePoint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;La classe &lt;code&gt;RelativePoint&lt;/code&gt;, istanziata dal metodo &lt;code&gt;Move&lt;/code&gt;, sarà una cosa del tipo:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;RelativePoint&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="n"&gt;previousPoint&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;RelativePoint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="n"&gt;prev&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;previousPoint&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;prev&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delta_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delta_y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;previousPoint&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;previousPoint&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="no"&gt;Move&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;    
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kp"&gt;new&lt;/span&gt; &lt;span class="no"&gt;RelativePoint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delta_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delta_y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In questo modo, il concetto di traiettoria non è stato modellato utilizzando una classe che la rappresenta, cioè una struttura, ma tramite lo scambio di messaggi tra gli oggetti che la compongono, i punti&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;. Molto semplice, e molto object oriented&lt;sup id="fnref:3"&gt;&lt;a class="footnote-ref" href="#fn:3" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lo stato del sistema&lt;/strong&gt;, la traiettoria, &lt;strong&gt;è definito solo dall’interazione tra oggetti&lt;/strong&gt; (immutabili), i punti.&lt;/p&gt;
+&lt;p&gt;In generale, forzandosi a utilizzare oggetti immutabili, viene più naturale sviluppare il design in questa direzione, cioè verso lo sfruttamento dell’interazione tra oggetti, anziché della loro struttura.&lt;/p&gt;
+&lt;p&gt;In un contesto così semplice, è difficile apprezzare i vantaggi di questo approccio però possiamo vedere, per esempio, l’implementazione della rimozione dell’ultimo punto della traiettoria per il design a oggetti:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="no"&gt;RemoveLast&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="sr"&gt;//&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="no"&gt;StartPoint&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="no"&gt;IPoint&lt;/span&gt; &lt;span class="no"&gt;RemoveLast&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="sr"&gt;//&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="no"&gt;RelativePoint&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;previousPoint&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;e per quello procedurale:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kp"&gt;public&lt;/span&gt; &lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="no"&gt;RemoveLast&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RemoveAt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Count&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Cos’è meglio?&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;“Object-oriented computation is about the exchange of messages between objects. The purpose is to create objects and to send objects back and forth via messages” (&lt;a href="http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf"&gt;http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf&lt;/a&gt;).&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;Attenzione perché, compilando in Debug, la ricorsione porta facilmente ad avere delgli stack overflow, già con 100.000 punti. Compilando in Release, viene effettuata la &lt;a href="http://en.wikipedia.org/wiki/Tail_call"&gt;tail-call optimization&lt;/a&gt;, per cui non ci sono limiti alla ricorsione, se non quelli imposti dalla memoria del sistema.&amp;#160;&lt;a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;L’eliminazione della duplicazione del metodo &lt;code&gt;Move&lt;/code&gt; è un semplice esercizio, che viene lasciato al lettore :)&amp;#160;&lt;a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="C"></category><category term="Erlang"></category><category term="Linguaggi funzionali"></category><category term="OOP"></category><category term="Oggetti immutabili"></category><category term="Preferiti"></category></entry><entry><title>Il mito del focus</title><link href="http://blog.riccardomarotti.com/post/663286619/il-mito-del-focus/" rel="alternate"></link><updated>2010-06-04T00:00:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-06-04:post/663286619/il-mito-del-focus/</id><summary type="html">&lt;p&gt;Esistono due approcci per risolvere problemi: quello dell’emisfero cerebrale sinistro e quello dell’emisfero destro.&lt;/p&gt;
+&lt;p&gt;L’emisfero sinistro è quello logico e sequenziale. Quello destro è quello &lt;a href="http://it.wiktionary.org/wiki/euristico"&gt;euristico&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;L’approccio logico richiede che il problema sia già noto, e che si debba, di fatto, semplicemente applicare un algoritmo per arrivare alla soluzione.&lt;/p&gt;
+&lt;p&gt;Un problema ancora senza soluzione richiede creatività.&lt;/p&gt;
+&lt;p&gt;La creatività risiede nell’emisfero destro.&lt;/p&gt;
+&lt;p&gt;Solo un approccio non sequenziale, non necessariamente logico, può permettere di trovare soluzioni a problemi ignoti o di trovarne di nuove per quelli noti.&lt;/p&gt;
+&lt;p&gt;Per problemi di questo tipo, essere troppo focalizzati è controproducente. La concentrazione attiva l’emisfero sinistro, che non è in grado di creare.&lt;/p&gt;
+&lt;p&gt;Credo sia capitato a chiunque di andare a letto senza riuscire a risolvere un problema per poi svegliarsi la mattina con la soluzione in testa. Penso che dormire sia qualcosa di molto lontano dall’essere focalizzato su un problema :)&lt;/p&gt;
+&lt;p&gt;Questo spiega perché, per i lavori creativi, le ricompense economiche fanno produrre risultati inferiori, rispetto a quelli fatti semplicemente per passione.&lt;/p&gt;
+&lt;p&gt;La ricompensa ci mette fretta e ci fa focalizzare sul problema, rendendoci meno creativi.&lt;/p&gt;
+&lt;p&gt;Il focus uccide la creatività. È il relax che la alimenta.&lt;/p&gt;
+&lt;p&gt;Tutto questo solo perché sento sempre parlare di focus e commitment (tipicamente dai manager) come di attributi fondamentali per il successo di un programmatore. Ritengo che la programmazione richieda capacità creative non trascurabili.&lt;/p&gt;
+&lt;p&gt;Per cui, chiedere a un programmatore di essere sempre focalizzato, sempre “sul pezzo”, anche se può non sembrare, non è necessariamente una richiesta sensata.&lt;/p&gt;</summary><category term="Spunti di riflessione"></category><category term="Creatività"></category></entry><entry><title>Talento o pigrizia?</title><link href="http://blog.riccardomarotti.com/post/603304271/talento-o-pigrizia/" rel="alternate"></link><updated>2010-05-16T11:21:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-05-16:post/603304271/talento-o-pigrizia/</id><summary type="html">&lt;p&gt;Quando si parla di metodi agili, generalmente, tutti dicono che adattano leggermente le pratiche alla propria realtà e alle proprie esigenze. &lt;/p&gt;
+&lt;p&gt;Sono convinto che, mano a mano che si cresce, si possa, anzi, si debba adattare il metodo alle proprie peculiarità, con lo scopo di essere più efficaci. Il metodo, in generale, serve agli inesperti: più aumenta l’esperienza, più aumentano la sensibilità e la capacità di capire quale sia la cosa migliore caso per caso.&lt;/p&gt;
+&lt;p&gt;Estremizzando, il metodo diventa un freno che imbriglia il talento.&lt;/p&gt;
+&lt;p&gt;Spesso però, gli adattamenti che si fanno sono dettati dalla pigrizia e dalla paura, non dall’esperienza.&lt;/p&gt;
+&lt;p&gt;Mi viene in mente la retrospective: si tende a farla di rado perché è la prima cosa che salta quando si è stretti con i tempi. Questa è paura. &lt;/p&gt;
+&lt;p&gt;Una delle pratiche più storpiate è la tecnica del pomodoro: si tende ad allungare i tempi.&lt;/p&gt;
+&lt;p&gt;Un classico è il pomodoro da 50 minuti… Generalmente la scusa per questo è che interrompersi dopo soli venticinque minuti è fastidioso.&lt;/p&gt;
+&lt;p&gt;Secondo me è solo per avere pause più lunghe, infatti spesso sentirete anche dire che in cinque minuti non riesci neanche a controllare la posta. Ma lo scopo del pomodoro non sono le pause. Questa è pigrizia.&lt;/p&gt;
+&lt;p&gt;Si possono fare molti altri esempi, ma, in generale, qualunque modifica che richieda un impegno minore rispetto alla pratica “by the book”, sarebbe meglio non farla.&lt;/p&gt;
+&lt;p&gt;Gli sconti è meglio chiederli quando si compra, non quando si programma :)&lt;/p&gt;</summary><category term="Agile"></category><category term="Metodi"></category><category term="Spunti di riflessione"></category></entry><entry><title>(fr)Agile?</title><link href="http://blog.riccardomarotti.com/post/573406958/fr-agile/" rel="alternate"></link><updated>2010-05-05T00:00:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-05-05:post/573406958/fr-agile/</id><summary type="html">&lt;p&gt;Negli ultimi cinque anni ho fatto parte di due team agili. Secondo la mia esperienza, osservando la realtà senza preconcetti, dovrei aver dedotto che l’agile non funziona, o non serve.&lt;/p&gt;
+&lt;p&gt;Su cosa si dovrebbe basare un giudizio sulle pratiche agili? Penso, principalmente, sulla soddisfazione degli utenti finali del software prodotto. Beh, non ricordo un cliente veramente soddisfatto. I casi emblematici sono due.&lt;/p&gt;
+&lt;p&gt;Uno: gli utenti erano più contenti prima che arrivasse l’agile, perché allora, quando qualcuno aveva un problema, faceva una telefonata e arrivava uno sviluppatore, che sistemava l’eventuale bug, e installava al volo un eseguibile dell’applicazione sul pc dell’utente. Con gli “Agili”, occorre più tempo per avere il fix, e, una volta sistemato il bug, si deve aspettare il “prossimo rilascio”. Prima l’utente era operativo da subito, senza attendere lo svolgersi di quella che viene percepita come burocrazia.&lt;/p&gt;
+&lt;p&gt;Due: il cliente critica il team agile perché, a fronte di un costo maggiore degli altri, non presenta una maggiore efficacia. Stessi risultati dei “non agili”, costi maggiori.&lt;/p&gt;
+&lt;p&gt;Allora si potrebbe spostare l’attenzione sulla qualità interna e dire: “sì però il codice prodotto è sicuramente di qualità!” No. Spesso è clamorosamente complesso, complice quella patternite di cui soffrono, non di rado, gli agilisti.&lt;/p&gt;
+&lt;p&gt;L’idea che basti una serie di pratiche per avere codice semplice, con un buon design, è sbagliata. Non sono il TDD o il pair programming (o qualunque altra pratica) che ti fanno scrivere codice di pregio. Il design non emerge da solo grazie alle pratiche. Il design deve essere prima nella testa di chi programma. E se chi programma non è in grado di creare software semplice, non saranno le pratiche a permettergli di farlo. &lt;/p&gt;
+&lt;p&gt;Una frase che ho sentito spesso, per giustificare l’insoddisfazione del cliente, suona più o meno così: “noi siamo molto migliori degli altri, ma non riusciamo a dimostrarlo”. Beh, essere bravi senza riuscire a dimostrarlo equivale a non essere bravi affatto. &lt;/p&gt;
+&lt;p&gt;Personalmente, l’unico vero vantaggio che ho percepito nel lavorare in modo agile è stato che il lavoro era molto meno stressante di quanto non sarebbe stato diversamente. Modificare il codice con relativa tranquillità, grazie ai test, non ha prezzo. Secondo me, ottenere risultati analoghi agli altri, ma senza fare le notti e dormendo sonni tranquilli è già un ottimo risultato. Ma è sufficiente?&lt;/p&gt;</summary><category term="Agile"></category><category term="Spunti di riflessione"></category></entry><entry><title>Ma davvero agli Italiani non interessa il tdd?</title><link href="http://blog.riccardomarotti.com/post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd/" rel="alternate"></link><updated>2010-04-21T12:35:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-04-21:post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd/</id><summary type="html">&lt;p&gt;Stavo valutando l’ipotesi di preparare una serie di post (o magari anche screencast) sul &lt;a href="http://en.wikipedia.org/wiki/Test-driven_development"&gt;Test Driven Development&lt;/a&gt; con &lt;a href="http://developer.apple.com/technologies/tools/"&gt;Xcode&lt;/a&gt;, visto che in giro non si trova molto. In particolare, dato che sto iniziando a scrivere un’applicazione per Mac, vorrei fare una sorta di diario del suo sviluppo.&lt;/p&gt;
+&lt;p&gt;Prima di mettermi a fare il lavoro, ho voluto verificare il possibile interesse che può suscitare una cosa del genere. &lt;/p&gt;
+&lt;p&gt;Pare che, in Italia, il TDD non interessi praticamente a nessuno.&lt;/p&gt;
+&lt;p&gt;Xcode interessa poco di più.&lt;/p&gt;
+&lt;p&gt;E chi lo dice? Google. &lt;/p&gt;
+&lt;p&gt;Con le sue &lt;a href="http://www.google.com/insights/search/"&gt;statistiche di ricerca&lt;/a&gt;, ho cercato la frequenza delle parole chiave “&lt;a href="http://www.google.com/insights/search/#q=TDD&amp;amp;geo=IT&amp;amp;date=1%2F2009%2012m&amp;amp;cmpt=geo"&gt;TDD&lt;/a&gt;”, “&lt;a href="http://www.google.com/insights/search/#q=Test%20Driven%20Development&amp;amp;geo=IT&amp;amp;date=1%2F2009%2012m&amp;amp;cmpt=geo"&gt;Test Driven Development&lt;/a&gt;”, “&lt;a href="http://www.google.com/insights/search/#q=Objective%20C&amp;amp;geo=IT&amp;amp;date=1%2F2009%2012m&amp;amp;cmpt=geo"&gt;Objective C&lt;/a&gt;” e “&lt;a href="http://www.google.com/insights/search/#q=XCode&amp;amp;geo=IT&amp;amp;date=1%2F2009%2012m&amp;amp;cmpt=geo"&gt;Xcode&lt;/a&gt;” in Italia, nel 2009. Come si può vedere, l’interesse rilevato da Google per queste parole è molto basso.&lt;/p&gt;
+&lt;p&gt;Da qui si deduce che, probabilmente, una serie di post del genere sarebbe tempo sprecato, perché non servirebbe a nessuno.&lt;/p&gt;
+&lt;p&gt;A questo punto ti chiedo: a te interesserebbe?&lt;/p&gt;
+&lt;p&gt;Se sì, lascia un commento per farmelo sapere, o mandami una mail (riccardo at marotti.name). E raccomanda a tutti quelli che conosci di fare altrettanto ;).&lt;/p&gt;</summary><category term="Objective C"></category><category term="TDD"></category><category term="XCode"></category></entry></feed>

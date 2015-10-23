@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Tip - Includere un framework in un progetto XCode - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2010-09-10T00:00:00+02:00">
+        September 10, 2010
+      </abbr>
+      <h2 class="instapaper_title">Tip - Includere un framework in un progetto XCode</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>Quando si include un framework esterno in un progetto XCode, per esempio, GData, anche se compila tutto, può succedere che, una volta eseguita l’applicazione, ci sia un crash con un errore del tipo:</p>
+<div class="highlight"><pre><span class="n">dyld</span><span class="o">:</span> <span class="n">Library</span> <span class="n">not</span> <span class="n">loaded</span><span class="o">:</span> <span class="err">@</span><span class="n">loader_path</span><span class="sr">/../Frameworks/GData.framework/</span><span class="o">[</span><span class="err">…</span><span class="o">]</span>
+<span class="n">Referenced</span> <span class="n">from</span><span class="o">:[</span><span class="n">path</span> <span class="n">dell</span><span class="err">’</span><span class="n">eseguibile</span><span class="o">]</span>
+<span class="n">Reason</span><span class="o">:</span> <span class="n">image</span> <span class="n">not</span> <span class="n">found</span>
+</pre></div>
+
+
+<p>Questo succede perché l’eseguibile, linkato dinamicamente con il framework, non trova la libreria a runtime. Infatti la directory Frameworks non esiste all’interno del bundle dell’eseguibile.</p>
+<p>Per creare la directory e copiare al suo interno la libreria, basta aggiungere un “Copy Files Build Phase” (Click destro sul target, poi <code>Add -&gt; New Build Phase -&gt; New Copy Files Build Phase</code>):</p>
+<p><img alt="ima1" src="/images/framework-tip-1.png" /></p>
+<p>e assicurarsi di selezionare Frameworks come Destination</p>
+<p><img alt="ima2" src="/images/framework-tip-2.png" /></p>
+<p>Ora basta draggare il framework nel passo appena creato</p>
+<p><img alt="ima3" src="/images/framework-tip-3.png" /></p>
+<p>In questo modo, la libreria sarà copiata opportunamente, e non ci saranno sorprese a runtime.</p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/tips/">Tips</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/xcode/">XCode</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/1096272870/framework-tip/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

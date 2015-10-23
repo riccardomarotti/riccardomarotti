@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Dropbox sui Google Docs - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2010-05-01T06:11:00+02:00">
+        May 01, 2010
+      </abbr>
+      <h2 class="instapaper_title">Dropbox sui Google Docs</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <blockquote></blockquote>
+
+<p>&#13;
+&#13;
+<blockquote>&#13;
+<p><em><strong>Nota</strong>: ho sospeso lo sviluppo di questa applicazione, dato che le API di google per accedere ai documenti funzionano solo per i Google Apps Premier Account, che hanno un costo che rendono sostanzialmente inutile un’applicazione del genere. Se e quando tali API funzioneranno anche per account gratuiti, finirò il lavoro.</em></p>&#13;
+</blockquote>&#13;
+<p>Oggi inizio ufficialmente lo sviluppo di un’applicazione che permetta di sincronizzare una directory locale con i Google Documents. In pratica vorrei fare una sorta di Dropbox che si appoggi a Google.</p>&#13;
+<p>Perché? </p>&#13;
+<ul><li>50GB con Dropbox costano 100$ l’anno</li>&#13;
+<li>20GB sui Google Docs costano 5$ l’anno</li>&#13;
+<li>80GB sui Google Docs costano 20$ l’anno.</li>&#13;
+</ul><p>Non credo servano ulteriori commenti :).</p>&#13;
+<p>Come avevo detto <a target="_blank" href="/post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd/">precedentemente</a>, vorrei riportare qui gli sviluppi dello sviluppo :)</p>&#13;
+<p>Lo annuncio pubblicamente perché ritengo sia uno stimolo in più ad arrivare in fondo.</p>&#13;
+<p>La prima cosa che farò è uno spike per capire come si possa creare un’applciazione che non appaia nel dock, ma solo nella barra del menu, esattamente come fa Dropbox (ma anche Time Machine, per esempio).</p>&#13;
+<p>Poi farò un altro spike per capire a fondo come si può interagire con i docs da Objective C. </p>&#13;
+<p>Poi inizierò a scrivere codice veramente: non ho ancora creato le carte, ma a grandi linee penso ci saranno tre temi principali:</p>&#13;
+<ul><li>modulo per l’accesso ai docs</li>&#13;
+<li>modulo con la logica di sincronizzazione</li>&#13;
+<li>interfaccia grafica</li>&#13;
+</ul><p>Penso che, tra un mesetto (sia chiaro, non è una <a target="_blank" href="/post/556460537/sulle-stime/">stima</a> ;), avrò bisogno di qualche beta tester: qualcuno si offre volontario?</p></p>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/2010/">2010</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/objective-c/">Objective C</a> <a href="http://blog.riccardomarotti.com/tag/cocoa/">Cocoa</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/560768127/dropbox-sui-google-docs/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

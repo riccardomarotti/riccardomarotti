@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Migliorare il design grazie agli oggetti immutabili - Riccardo Marotti</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="Riccardo Marotti">
+  <meta property="og:type" content="blog">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" href="http://blog.riccardomarotti.com/feeds/all.atom.xml" type="application/atom+xml">
+
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/base.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/skeleton.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/styles.css">
+  <link rel="stylesheet" href="http://blog.riccardomarotti.com/theme/pygment.css">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <script src="/modernizr-min.js"></script>  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3732155-8']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eleven columns">
+      <h1>
+        <a href="http://blog.riccardomarotti.com">
+            <img src="https://lh5.googleusercontent.com/-gfEVWq1HGt8/AAAAAAAAAAI/AAAAAAAA8Uc/0EipVIKIiks/s120-c/photo.jpg" alt="">
+            Riccardo Marotti</a>
+      </h1>
+    </div>
+    <div class="five columns">
+      <h1>
+        <a href="http://music.riccardomarotti.com">My Music</a>
+      </h1>
+    </div>
+  </div>
+</header>
+
+  <div class="container">
+
+    <section class="row">
+      <div class="sixteen columns">
+	<h5> Posts </h5>
+        <h2 class="section"></h2>
+  
+
+  <article class="hentry">
+
+    <div class="entry-header">
+      <abbr class="published" title="2010-06-18T00:00:00+02:00">
+        June 18, 2010
+      </abbr>
+      <h2 class="instapaper_title">Migliorare il design grazie agli oggetti immutabili</h2>
+    </div>
+    <div class="instapaper_body entry-content">
+    <p>In <a href="http://www.erlang.org/">Erlang</a> non esistono le variabili a cui siamo abituati. All’interno di uno scope, si può assegnare un valore a una variabile una sola volta. Questo approccio, tipico dei linguaggi funzionali, aiuta a ridurre gli effetti collaterali (side-effects).</p>
+<p>Una funzione è detta <a href="http://en.wikipedia.org/wiki/Pure_function">pura</a>, cioè senza effetti collaterali, se, dato un input, il suo output è sempre lo stesso, indipendentemente dal contesto in cui viene eseguita.</p>
+<p>Proviamo a trasferire nel mondo a oggetti questi concetti: dato un oggetto immutabile, cioè un oggetto che non può cambiare il suo stato, tutti i suoi metodi che restituiscono un valore saranno funzioni pure.</p>
+<p>Vediamo cosa accade se usiamo solo oggetti immutabili in un semplice esempio: come rappresentare una traiettoria, cioè un insieme ordinato di punti.</p>
+<p>La prima cosa che viene in mente, per l’implementazione, è mantenere una lista di punti all’interno di un oggetto e, a ogni chiamata di un metodo, per esempio <code>Move</code>, viene aggiunto un punto a questa lista:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
+<span class="p">{</span>
+  <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span><span class="p">{</span><span class="kp">new</span> <span class="no">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)};</span>
+
+  <span class="kp">public</span> <span class="n">void</span> <span class="no">Move</span><span class="p">(</span><span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="kp">new</span> <span class="no">Point</span><span class="p">(</span><span class="no">CurrentX</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="no">CurrentY</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="n">int</span> <span class="no">CurrentX</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">points</span><span class="o">[</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">X</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="kp">public</span> <span class="n">int</span> <span class="no">CurrentY</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">points</span><span class="o">[</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">Y</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Il metodo <code>Move</code> non è una funzione, ma una procedura; inoltre non è privo di effetti collaterali: se, una volta istanziata la traiettoria, lo invoco N volte con gli stessi parametri, ottengo N cambi di stato.</p>
+<p>Allora rendiamo la traiettoria un oggetto immutabile.</p>
+<p>La prima domanda che sorge è: come si gestiscono i cambiamenti di stato? Ogni cambiamento di stato corrisponde alla creazione di un nuovo oggetto.</p>
+<p>Allora, facciamo in modo che, a ogni chiamata a Move, venga creata una nuova traiettoria:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
+<span class="p">{</span>
+  <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span> <span class="n">points</span><span class="p">;</span>
+
+  <span class="kp">public</span> <span class="no">Trajectory</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span><span class="p">{</span><span class="kp">new</span> <span class="no">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)};</span>
+  <span class="p">}</span>
+
+  <span class="kp">private</span> <span class="no">Trajectory</span><span class="p">(</span><span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span> <span class="n">points</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="no">Trajectory</span> <span class="no">Move</span><span class="p">(</span><span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="k">return</span> <span class="kp">new</span> <span class="no">Trajectory</span><span class="p">(</span><span class="kp">new</span> <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+            <span class="p">{</span><span class="kp">new</span> <span class="no">Point</span><span class="p">(</span><span class="no">CurrentX</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="no">CurrentY</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">)});</span>
+  <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="n">int</span> <span class="no">CurrentX</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">points</span><span class="o">[</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">X</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="kp">public</span> <span class="n">int</span> <span class="no">CurrentY</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">points</span><span class="o">[</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">Y</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p></pre>
+La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiunto.</p>
+<p>Il nuovo metodo <code>Move</code> è diventato una funzione pura: una volta istanziata una traiettoria, invocandolo N volte con gli stessi parametri, ottengo sempre lo stesso risultato. Tant’è che la nuova traiettoria è un oggetto immutabile.</p>
+<p>Il prossimo passo è rendere questo codice più object oriented. Perché non lo è tanto? Vengono usati tre oggetti: <code>Trajectory</code>, <code>Point</code> e <code>List</code>. Però Point e List non fanno nulla: si limitano a mantenere uno stato <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. Da notare che è stata l’introduzione dell’immutabilità che ha rimosso l’unica azione fatta dall’oggetto <code>List</code>, cioè la chiamata al metodo <code>Add</code>, evidenziandone l’inutilità.</p>
+<p>L’unico comportamento presente è quello rappresentato dal metodo <code>Move</code>. Quindi dovrà esserci un solo tipo di oggetto, che implementi il metodo Move e mantenga lo stato dei punti.</p>
+<p>Questo è un possibile approccio: cominciamo con un’interfaccia <code>IPoint</code>:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="n">interface</span> <span class="no">IPoint</span>
+<span class="p">{</span>
+  <span class="n">int</span> <span class="n">X</span><span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">int</span> <span class="n">Y</span><span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="no">IPoint</span> <span class="no">Move</span> <span class="p">(</span><span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Si vede che il metodo <code>Move</code> restiruisce un punto, questo perché, a ogni sua invocazione, per mantenere l’immutabilità, se ne deve creare uno nuovo.</p>
+<p>Definiamo il punto iniziale, cioè quello di coordinate (0,0):</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">StartPoint</span> <span class="p">:</span> <span class="no">IPoint</span>
+<span class="p">{</span>
+  <span class="kp">public</span> <span class="n">int</span> <span class="n">X</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="kp">public</span> <span class="n">int</span> <span class="n">Y</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="no">IPoint</span> <span class="no">Move</span><span class="p">(</span><span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="kp">new</span> <span class="no">RelativePoint</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>La classe <code>RelativePoint</code>, istanziata dal metodo <code>Move</code>, sarà una cosa del tipo:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">RelativePoint</span> <span class="p">:</span> <span class="no">IPoint</span>
+<span class="p">{</span>
+  <span class="no">IPoint</span> <span class="n">previousPoint</span><span class="p">;</span>
+  <span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">;</span>
+
+  <span class="kp">public</span> <span class="no">RelativePoint</span><span class="p">(</span><span class="no">IPoint</span> <span class="n">prev</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">previousPoint</span> <span class="o">=</span> <span class="n">prev</span><span class="p">;</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">delta_x</span> <span class="o">=</span> <span class="n">delta_x</span><span class="p">;</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">delta_y</span> <span class="o">=</span> <span class="n">delta_y</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="n">int</span> <span class="n">X</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">previousPoint</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="kp">public</span> <span class="n">int</span> <span class="n">Y</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">previousPoint</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="no">IPoint</span> <span class="no">Move</span> <span class="p">(</span><span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">int</span> <span class="n">delta_y</span><span class="p">)</span>
+  <span class="p">{</span>    
+    <span class="k">return</span> <span class="kp">new</span> <span class="no">RelativePoint</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>In questo modo, il concetto di traiettoria non è stato modellato utilizzando una classe che la rappresenta, cioè una struttura, ma tramite lo scambio di messaggi tra gli oggetti che la compongono, i punti<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup>. Molto semplice, e molto object oriented<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup>.</p>
+<p><strong>Lo stato del sistema</strong>, la traiettoria, <strong>è definito solo dall’interazione tra oggetti</strong> (immutabili), i punti.</p>
+<p>In generale, forzandosi a utilizzare oggetti immutabili, viene più naturale sviluppare il design in questa direzione, cioè verso lo sfruttamento dell’interazione tra oggetti, anziché della loro struttura.</p>
+<p>In un contesto così semplice, è difficile apprezzare i vantaggi di questo approccio però possiamo vedere, per esempio, l’implementazione della rimozione dell’ultimo punto della traiettoria per il design a oggetti:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="no">IPoint</span> <span class="no">RemoveLast</span><span class="p">()</span> <span class="sr">//</span> <span class="n">per</span> <span class="no">StartPoint</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kp">public</span> <span class="no">IPoint</span> <span class="no">RemoveLast</span><span class="p">()</span> <span class="sr">//</span> <span class="n">per</span> <span class="no">RelativePoint</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="n">previousPoint</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>e per quello procedurale:</p>
+<div class="highlight"><pre><span class="kp">public</span> <span class="n">void</span> <span class="no">RemoveLast</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Cos’è meglio?</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>“Object-oriented computation is about the exchange of messages between objects. The purpose is to create objects and to send objects back and forth via messages” (<a href="http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf">http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf</a>).&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Attenzione perché, compilando in Debug, la ricorsione porta facilmente ad avere delgli stack overflow, già con 100.000 punti. Compilando in Release, viene effettuata la <a href="http://en.wikipedia.org/wiki/Tail_call">tail-call optimization</a>, per cui non ci sono limiti alla ricorsione, se non quelli imposti dalla memoria del sistema.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>L’eliminazione della duplicazione del metodo <code>Move</code> è un semplice esercizio, che viene lasciato al lettore :)&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    </div>
+    
+    <div class="metadata">
+    
+      <address class="vcard author">
+        By <a class="url fn" href="http://blog.riccardomarotti.com/author/Riccardo Marotti.html">Riccardo Marotti</a>
+      </address>
+    
+      <p>
+        Posted in <em><a href="http://blog.riccardomarotti.com/category/programmazione/">Programmazione</a></em>
+      </p>
+    
+      <p>
+        Tags: <a href="http://blog.riccardomarotti.com/tag/c/">C</a> <a href="http://blog.riccardomarotti.com/tag/erlang/">Erlang</a> <a href="http://blog.riccardomarotti.com/tag/linguaggi-funzionali/">Linguaggi funzionali</a> <a href="http://blog.riccardomarotti.com/tag/oop/">OOP</a> <a href="http://blog.riccardomarotti.com/tag/oggetti-immutabili/">Oggetti immutabili</a> <a href="http://blog.riccardomarotti.com/tag/preferiti/">Preferiti</a>       </p>
+
+    </div>
+  
+    <hr>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_identifier = "post/711204747/migliorare-il-design-grazie-agli-oggetti-immutabili/";
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://riccardomarotti.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+  </article>
+  
+      </div>
+    </section>
+
+    <footer class="row">
+      <div class="sixteen columns">
+        <p class="small">Theme from <a href="http://calepin.co">Calepin.co</a> · Powered by <a href="http://pelican.readthedocs.org/">Pelican</a>.</p>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
