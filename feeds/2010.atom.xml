@@ -34,7 +34,7 @@
 &lt;p&gt;Di fatto si tratta di C, con in più gli oggetti e la sintassi per inviare messaggi tra loro. Nulla di più.&lt;/p&gt;
 &lt;p&gt;Non ha tutte quelle features cosiddette &lt;em&gt;"avanzate"&lt;/em&gt;, che ha, per esempio, il C++ (templates, ereditarietà multipla, overloading, e chi più ne ha più ne metta).&lt;/p&gt;
 &lt;h3&gt;Espressività&lt;/h3&gt;
-&lt;p&gt;La sintassi dell’invio dei messaggi è incredibilmente &lt;a href="/post/540519014/asserzioni-in-objective-c/"&gt;espressiva&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;La sintassi dell’invio dei messaggi è incredibilmente &lt;a href="/post/540519014/asserzioni-in-objective-c"&gt;espressiva&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Questo metodo Ruby&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pippo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

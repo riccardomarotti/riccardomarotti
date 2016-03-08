@@ -15,7 +15,7 @@
 
 
 &lt;p&gt;Il &lt;code&gt;while&lt;/code&gt; valuta l’espressione passata (count &amp;gt; 0) ed esegue il blocco passato fintanto che tale espressione è vera.&lt;/p&gt;
-&lt;p&gt;&lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/"&gt;Come per gli if&lt;/a&gt;, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio &lt;code&gt;while_true&lt;/code&gt; alla classe che rappresenta il blocco (cioè &lt;code&gt;Proc&lt;/code&gt;), e usarlo in modo del tutto analogo al while:&lt;/p&gt;
+&lt;p&gt;&lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords"&gt;Come per gli if&lt;/a&gt;, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio &lt;code&gt;while_true&lt;/code&gt; alla classe che rappresenta il blocco (cioè &lt;code&gt;Proc&lt;/code&gt;), e usarlo in modo del tutto analogo al while:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="nb"&gt;proc&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;while_true&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
      &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fattoriale&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;
      &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
@@ -37,7 +37,7 @@
 
 
 &lt;p&gt;&lt;code&gt;while_true&lt;/code&gt; viene invocato ricorsivamente finché l’espressione del blocco che riceve il messaggio non è falsa.&lt;/p&gt;
-&lt;p&gt;(Per l’implementazione di &lt;code&gt;if_true&lt;/code&gt;, si veda il &lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/"&gt;post sugli if&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;(Per l’implementazione di &lt;code&gt;if_true&lt;/code&gt;, si veda il &lt;a href="/post/3181905943/implementare-gli-if-senza-usare-keywords"&gt;post sugli if&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Può dare l’impressione di essere una banale modifica sintattica, ma si tratta di una differenza più sostanziale di quanto sembri.&lt;/p&gt;
 &lt;p&gt;Gestire i &lt;code&gt;while&lt;/code&gt; in questo modo permette di rimuovere una parola chiave, semplificare il linguaggio, e renderlo più object oriented, dato che anche il ciclo while si riduce a uno scambio di messaggi.&lt;/p&gt;</summary><category term="OOP"></category><category term="Spunti di riflessione"></category><category term="Ruby"></category></entry><entry><title>Implementare gli if senza usare keywords</title><link href="http://blog.riccardomarotti.com/post/3181905943/implementare-gli-if-senza-usare-keywords" rel="alternate"></link><updated>2011-02-08T00:00:00+01:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2011-02-08:post/3181905943/implementare-gli-if-senza-usare-keywords</id><summary type="html">&lt;p&gt;Lavorando a un tool di sviluppo a oggetti, mi sono trovato a ragionare su quanto sia sbagliato usare la parola chiave &lt;code&gt;if&lt;/code&gt; in un linguaggio a oggetti.&lt;/p&gt;
 &lt;p&gt;Le strutture di controllo come gli &lt;code&gt;if&lt;/code&gt; sono fortemente procedurali e spingono a non programmare a oggetti.&lt;/p&gt;

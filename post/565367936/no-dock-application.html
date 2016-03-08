@@ -73,7 +73,7 @@
     <iframe width="500" height="281" src="http://www.youtube.com/embed/591xWdi-suA?wmode=transparent&autohide=1&egm=0&hd=1&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0&showsearch=0" frameborder="0" allowfullscreen></iframe>
 
 <p><strong>Spike</strong>: come rimuovere un’applicazione dal dock e aggiungere alla barra di stato un’icona per l’applicazione, con relativo menu.</p>
-<p>Questo video mostra i risultati del primo spike che ho fatto riguardo l’<a href="/post/560768127/dropbox-sui-google-docs/">applicazione</a> simil Dropbox che sto sviluppando.</p>
+<p>Questo video mostra i risultati del primo spike che ho fatto riguardo l’<a href="/post/560768127/dropbox-sui-google-docs">applicazione</a> simil Dropbox che sto sviluppando.</p>
 <p>Per rimuovere l’icona dal dock, è sufficiente impostare a <code>True</code> la property <code>Applicaion is Agent</code>.</p>
 <p>Per aggiungere un'icona alla status bar, con relativo menu, bisogna configurare a run-time, per esempio nel metodo <code>awakeFromNib</code> dell’application delegate<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>, lo status item dell’applciazione:</p>
 <div class="highlight"><pre><span class="p">[</span><span class="n">statusItem</span> <span class="nl">setMenu</span><span class="p">:</span><span class="n">applicationMenu</span><span class="p">];</span>

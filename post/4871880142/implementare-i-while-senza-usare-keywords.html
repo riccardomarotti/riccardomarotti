@@ -86,7 +86,7 @@
 
 
 <p>Il <code>while</code> valuta l’espressione passata (count &gt; 0) ed esegue il blocco passato fintanto che tale espressione è vera.</p>
-<p><a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/">Come per gli if</a>, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio <code>while_true</code> alla classe che rappresenta il blocco (cioè <code>Proc</code>), e usarlo in modo del tutto analogo al while:</p>
+<p><a href="/post/3181905943/implementare-gli-if-senza-usare-keywords">Come per gli if</a>, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio <code>while_true</code> alla classe che rappresenta il blocco (cioè <code>Proc</code>), e usarlo in modo del tutto analogo al while:</p>
 <div class="highlight"><pre> <span class="nb">proc</span> <span class="p">{</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span><span class="o">.</span><span class="n">while_true</span> <span class="k">do</span>
      <span class="n">fattoriale</span> <span class="o">=</span> <span class="n">fattoriale</span> <span class="o">*</span> <span class="n">count</span>
      <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -108,7 +108,7 @@
 
 
 <p><code>while_true</code> viene invocato ricorsivamente finché l’espressione del blocco che riceve il messaggio non è falsa.</p>
-<p>(Per l’implementazione di <code>if_true</code>, si veda il <a href="/post/3181905943/implementare-gli-if-senza-usare-keywords/">post sugli if</a>).</p>
+<p>(Per l’implementazione di <code>if_true</code>, si veda il <a href="/post/3181905943/implementare-gli-if-senza-usare-keywords">post sugli if</a>).</p>
 <p>Può dare l’impressione di essere una banale modifica sintattica, ma si tratta di una differenza più sostanziale di quanto sembri.</p>
 <p>Gestire i <code>while</code> in questo modo permette di rimuovere una parola chiave, semplificare il linguaggio, e renderlo più object oriented, dato che anche il ciclo while si riduce a uno scambio di messaggi.</p>
     </div>
