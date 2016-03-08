@@ -12,7 +12,7 @@
 &lt;li&gt;20GB sui Google Docs costano 5$ l’anno&lt;/li&gt;&amp;#13;
 &lt;li&gt;80GB sui Google Docs costano 20$ l’anno.&lt;/li&gt;&amp;#13;
 &lt;/ul&gt;&lt;p&gt;Non credo servano ulteriori commenti :).&lt;/p&gt;&amp;#13;
-&lt;p&gt;Come avevo detto &lt;a target="_blank" href="/post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd/"&gt;precedentemente&lt;/a&gt;, vorrei riportare qui gli sviluppi dello sviluppo :)&lt;/p&gt;&amp;#13;
+&lt;p&gt;Come avevo detto &lt;a target="_blank" href="/post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd"&gt;precedentemente&lt;/a&gt;, vorrei riportare qui gli sviluppi dello sviluppo :)&lt;/p&gt;&amp;#13;
 &lt;p&gt;Lo annuncio pubblicamente perché ritengo sia uno stimolo in più ad arrivare in fondo.&lt;/p&gt;&amp;#13;
 &lt;p&gt;La prima cosa che farò è uno spike per capire come si possa creare un’applciazione che non appaia nel dock, ma solo nella barra del menu, esattamente come fa Dropbox (ma anche Time Machine, per esempio).&lt;/p&gt;&amp;#13;
 &lt;p&gt;Poi farò un altro spike per capire a fondo come si può interagire con i docs da Objective C. &lt;/p&gt;&amp;#13;
