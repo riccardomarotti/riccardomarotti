@@ -75,7 +75,7 @@
 <p>Proviamo a trasferire nel mondo a oggetti questi concetti: dato un oggetto immutabile, cioè un oggetto che non può cambiare il suo stato, tutti i suoi metodi che restituiscono un valore saranno funzioni pure.</p>
 <p>Vediamo cosa accade se usiamo solo oggetti immutabili in un semplice esempio: come rappresentare una traiettoria, cioè un insieme ordinato di punti.</p>
 <p>La prima cosa che viene in mente, per l’implementazione, è mantenere una lista di punti all’interno di un oggetto e, a ogni chiamata di un metodo, per esempio <code>Move</code>, viene aggiunto un punto a questa lista:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
 <span class="p">{</span>
   <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span><span class="p">{</span><span class="kp">new</span> <span class="no">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)};</span>
 
@@ -94,7 +94,7 @@
 <p>Allora rendiamo la traiettoria un oggetto immutabile.</p>
 <p>La prima domanda che sorge è: come si gestiscono i cambiamenti di stato? Ogni cambiamento di stato corrisponde alla creazione di un nuovo oggetto.</p>
 <p>Allora, facciamo in modo che, a ogni chiamata a Move, venga creata una nuova traiettoria:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="k">class</span> <span class="nc">Trajectory</span>
 <span class="p">{</span>
   <span class="no">List</span><span class="o">&lt;</span><span class="no">Point</span><span class="o">&gt;</span> <span class="n">points</span><span class="p">;</span>
 
@@ -123,10 +123,10 @@
 <p></pre>
 La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiunto.</p>
 <p>Il nuovo metodo <code>Move</code> è diventato una funzione pura: una volta istanziata una traiettoria, invocandolo N volte con gli stessi parametri, ottengo sempre lo stesso risultato. Tant’è che la nuova traiettoria è un oggetto immutabile.</p>
-<p>Il prossimo passo è rendere questo codice più object oriented. Perché non lo è tanto? Vengono usati tre oggetti: <code>Trajectory</code>, <code>Point</code> e <code>List</code>. Però Point e List non fanno nulla: si limitano a mantenere uno stato <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. Da notare che è stata l’introduzione dell’immutabilità che ha rimosso l’unica azione fatta dall’oggetto <code>List</code>, cioè la chiamata al metodo <code>Add</code>, evidenziandone l’inutilità.</p>
+<p>Il prossimo passo è rendere questo codice più object oriented. Perché non lo è tanto? Vengono usati tre oggetti: <code>Trajectory</code>, <code>Point</code> e <code>List</code>. Però Point e List non fanno nulla: si limitano a mantenere uno stato <sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup>. Da notare che è stata l’introduzione dell’immutabilità che ha rimosso l’unica azione fatta dall’oggetto <code>List</code>, cioè la chiamata al metodo <code>Add</code>, evidenziandone l’inutilità.</p>
 <p>L’unico comportamento presente è quello rappresentato dal metodo <code>Move</code>. Quindi dovrà esserci un solo tipo di oggetto, che implementi il metodo Move e mantenga lo stato dei punti.</p>
 <p>Questo è un possibile approccio: cominciamo con un’interfaccia <code>IPoint</code>:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="n">interface</span> <span class="no">IPoint</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="n">interface</span> <span class="no">IPoint</span>
 <span class="p">{</span>
   <span class="n">int</span> <span class="n">X</span><span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="p">}</span>
   <span class="n">int</span> <span class="n">Y</span><span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="p">}</span>
@@ -138,7 +138,7 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 
 <p>Si vede che il metodo <code>Move</code> restiruisce un punto, questo perché, a ogni sua invocazione, per mantenere l’immutabilità, se ne deve creare uno nuovo.</p>
 <p>Definiamo il punto iniziale, cioè quello di coordinate (0,0):</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">StartPoint</span> <span class="p">:</span> <span class="no">IPoint</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="k">class</span> <span class="nc">StartPoint</span> <span class="p">:</span> <span class="no">IPoint</span>
 <span class="p">{</span>
   <span class="kp">public</span> <span class="n">int</span> <span class="n">X</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
   <span class="kp">public</span> <span class="n">int</span> <span class="n">Y</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
@@ -152,7 +152,7 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 
 
 <p>La classe <code>RelativePoint</code>, istanziata dal metodo <code>Move</code>, sarà una cosa del tipo:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="k">class</span> <span class="nc">RelativePoint</span> <span class="p">:</span> <span class="no">IPoint</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="k">class</span> <span class="nc">RelativePoint</span> <span class="p">:</span> <span class="no">IPoint</span>
 <span class="p">{</span>
   <span class="no">IPoint</span> <span class="n">previousPoint</span><span class="p">;</span>
   <span class="n">int</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">;</span>
@@ -175,11 +175,11 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 </pre></div>
 
 
-<p>In questo modo, il concetto di traiettoria non è stato modellato utilizzando una classe che la rappresenta, cioè una struttura, ma tramite lo scambio di messaggi tra gli oggetti che la compongono, i punti<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup>. Molto semplice, e molto object oriented<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup>.</p>
+<p>In questo modo, il concetto di traiettoria non è stato modellato utilizzando una classe che la rappresenta, cioè una struttura, ma tramite lo scambio di messaggi tra gli oggetti che la compongono, i punti<sup id="fnref-2"><a class="footnote-ref" href="#fn-2">2</a></sup>. Molto semplice, e molto object oriented<sup id="fnref-3"><a class="footnote-ref" href="#fn-3">3</a></sup>.</p>
 <p><strong>Lo stato del sistema</strong>, la traiettoria, <strong>è definito solo dall’interazione tra oggetti</strong> (immutabili), i punti.</p>
 <p>In generale, forzandosi a utilizzare oggetti immutabili, viene più naturale sviluppare il design in questa direzione, cioè verso lo sfruttamento dell’interazione tra oggetti, anziché della loro struttura.</p>
 <p>In un contesto così semplice, è difficile apprezzare i vantaggi di questo approccio però possiamo vedere, per esempio, l’implementazione della rimozione dell’ultimo punto della traiettoria per il design a oggetti:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="no">IPoint</span> <span class="no">RemoveLast</span><span class="p">()</span> <span class="sr">//</span> <span class="n">per</span> <span class="no">StartPoint</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="no">IPoint</span> <span class="no">RemoveLast</span><span class="p">()</span> <span class="sr">//</span> <span class="n">per</span> <span class="no">StartPoint</span>
 <span class="p">{</span>
   <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
 <span class="p">}</span>
@@ -192,7 +192,7 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 
 
 <p>e per quello procedurale:</p>
-<div class="highlight"><pre><span class="kp">public</span> <span class="n">void</span> <span class="no">RemoveLast</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="kp">public</span> <span class="n">void</span> <span class="no">RemoveLast</span><span class="p">()</span>
 <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">points</span><span class="o">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">Count</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
@@ -203,16 +203,16 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 
 <p>Cos’è meglio?</p>
 <div class="footnote">
-<hr />
+<hr>
 <ol>
-<li id="fn:1">
-<p>“Object-oriented computation is about the exchange of messages between objects. The purpose is to create objects and to send objects back and forth via messages” (<a href="http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf">http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf</a>).&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn-1">
+<p>“Object-oriented computation is about the exchange of messages between objects. The purpose is to create objects and to send objects back and forth via messages” (<a href="http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf">http://www.ccs.neu.edu/home/matthias/Presentations/ecoop2004.pdf</a>).&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn:2">
-<p>Attenzione perché, compilando in Debug, la ricorsione porta facilmente ad avere delgli stack overflow, già con 100.000 punti. Compilando in Release, viene effettuata la <a href="http://en.wikipedia.org/wiki/Tail_call">tail-call optimization</a>, per cui non ci sono limiti alla ricorsione, se non quelli imposti dalla memoria del sistema.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<li id="fn-2">
+<p>Attenzione perché, compilando in Debug, la ricorsione porta facilmente ad avere delgli stack overflow, già con 100.000 punti. Compilando in Release, viene effettuata la <a href="http://en.wikipedia.org/wiki/Tail_call">tail-call optimization</a>, per cui non ci sono limiti alla ricorsione, se non quelli imposti dalla memoria del sistema.&#160;<a class="footnote-backref" href="#fnref-2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn:3">
-<p>L’eliminazione della duplicazione del metodo <code>Move</code> è un semplice esercizio, che viene lasciato al lettore :)&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<li id="fn-3">
+<p>L’eliminazione della duplicazione del metodo <code>Move</code> è un semplice esercizio, che viene lasciato al lettore :)&#160;<a class="footnote-backref" href="#fnref-3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

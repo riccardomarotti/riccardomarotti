@@ -86,12 +86,12 @@
 <h3>Espressività</h3>
 <p>La sintassi dell’invio dei messaggi è incredibilmente <a href="/post/540519014/asserzioni-in-objective-c">espressiva</a>.</p>
 <p>Questo metodo Ruby</p>
-<div class="highlight"><pre><span class="n">str</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">str</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">)</span>
 </pre></div>
 
 
 <p>in ObjC diventa</p>
-<div class="highlight"><pre><span class="p">[</span><span class="n">str</span> <span class="nl">insertString</span><span class="p">:</span><span class="s">@&quot;pippo&quot;</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">str</span> <span class="nl">insertString</span><span class="p">:</span><span class="s">@&quot;pippo&quot;</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
 </pre></div>
 
 
@@ -100,7 +100,7 @@
 <p>I tipi vengono “risolti” a run-time (la parola chiave “id” significa “qualunque tipo”). Ecco perché non servono overloading &amp; C.</p>
 <h3>Statico</h3>
 <p>Se lo desideri, i tipi sono risolti a “compile-time”: questo evita tutti i problemi dei linguaggi dinamici.</p>
-<hr />
+<hr>
 <p>La maggioranza di queste caratteristiche sono ereditate da Smalltalk: naturalmente penso che Smalltalk sia il miglior linguaggio mai creato ;).</p>
 <p>E allora perché non uso Smalltalk? Perché non mi soddisfa il look and feel delle applicazioni che produce. Essendo cross-platform, ha la sua versione delle finestre, dei bottoni, etc… Non si integra con il sistema.</p>
 <p>Ecco perché la mia scelta è Objective C/Cocoa per le applicazioni desktop, Smalltalk/<a href="http://www.seaside.st/">Seaside</a> per quelle web.</p>

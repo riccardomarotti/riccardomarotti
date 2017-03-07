@@ -72,18 +72,18 @@
     <div class="instapaper_body entry-content">
     <p>Da una <a href="http://blogs.ugidotnet.org/AntonioGanci/archive/2010/04/19/un-approccio-per-ottenere-una-architettura-malleabile.aspx#feedback">discussione</a> in un post di <a href="http://blogs.ugidotnet.org/AntonioGanci/Default.aspx">Antonio</a>, mi sono accorto che i matcher usati in Objective C non sfruttano l’espressività del linguagggio.</p>
 <p>Le assert di <a href="http://www.sente.ch/software/ocunit/">OCUnit</a> sono cose del tipo:</p>
-<div class="highlight"><pre><span class="n">STAssertNotNil</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">@&quot;messsage&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="n">STAssertNotNil</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="s">@&quot;messsage&quot;</span><span class="p">);</span>
 </pre></div>
 
 
 <p>La libreria <a href="http://code.google.com/p/hamcrest/">Hamcrest</a> addolcisce un po’ la sintassi:</p>
-<div class="highlight"><pre><span class="n">AssertThat</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">isNot</span><span class="p">(</span><span class="nb">nil</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><span class="n">AssertThat</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">isNot</span><span class="p">(</span><span class="nb">nil</span><span class="p">));</span>
 </pre></div>
 
 
 <p>Hamcrest, però, non è altro che un porting di una libreria Java, per cui utilizza la sintassi che ti permette di usare Java.</p>
 <p>In virtù della sua parentela con Smalltalk, Objective C è molto più espressivo di così, e permette di fare cose del tipo:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="n">Assert</span> <span class="nl">that</span><span class="p">:</span><span class="n">object</span> <span class="nl">isNot</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Assert</span> <span class="nl">that</span><span class="p">:</span><span class="n">object</span> <span class="nl">isNot</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
 </pre></div>
 
 

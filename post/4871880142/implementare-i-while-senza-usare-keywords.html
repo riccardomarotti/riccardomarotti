@@ -73,7 +73,7 @@
     <p>Da una discussione con <a href="http://blogs.ugidotnet.org/AntonioGanci/Default.aspx">Antonio</a> su come implementare il concetto di ciclo while nel tool di programmazione a oggetti su cui stiamo lavorando, è risultato che non serve creare costrutti sintattici particolari, ma basta un utilizzo oculato dei blocchi.</p>
 <p>Come sempre, l’ispirazione arriva da Smalltalk.</p>
 <p>Un esempio tipico di ciclo while è rappresentato dal fattoriale. Vediamone il calcolo per il numero 5, in Ruby:</p>
-<div class="highlight"><pre> <span class="n">count</span> <span class="o">=</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span> <span class="n">count</span> <span class="o">=</span> <span class="mi">5</span>
  <span class="n">fattoriale</span> <span class="o">=</span> <span class="mi">1</span>
 
  <span class="k">while</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">do</span>
@@ -87,7 +87,7 @@
 
 <p>Il <code>while</code> valuta l’espressione passata (count &gt; 0) ed esegue il blocco passato fintanto che tale espressione è vera.</p>
 <p><a href="/post/3181905943/implementare-gli-if-senza-usare-keywords">Come per gli if</a>, però, sarebbe stato possibile evitare di usare costrutti procedurali: è sufficiente aggiungere un messaggio <code>while_true</code> alla classe che rappresenta il blocco (cioè <code>Proc</code>), e usarlo in modo del tutto analogo al while:</p>
-<div class="highlight"><pre> <span class="nb">proc</span> <span class="p">{</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span><span class="o">.</span><span class="n">while_true</span> <span class="k">do</span>
+<div class="highlight"><pre><span></span> <span class="nb">proc</span> <span class="p">{</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span><span class="o">.</span><span class="n">while_true</span> <span class="k">do</span>
      <span class="n">fattoriale</span> <span class="o">=</span> <span class="n">fattoriale</span> <span class="o">*</span> <span class="n">count</span>
      <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
  <span class="k">end</span>
@@ -96,7 +96,7 @@
 
 <p>Il blocco anonimo <code>{ count &gt; 0 }</code> è un oggetto che risponde al messaggio <code>while_true</code>.</p>
 <p>L’implementazione di <code>while_true</code> deve essere tale per cui, fintanto che l’esecuzione del blocco restituisce <code>true</code>, viene eseguito il blocco passato come parametro:</p>
-<div class="highlight"><pre> <span class="k">class</span> <span class="nc">Proc</span>
+<div class="highlight"><pre><span></span> <span class="k">class</span> <span class="nc">Proc</span>
      <span class="k">def</span> <span class="nf">while_true</span> <span class="o">&amp;</span><span class="n">block</span>
          <span class="nb">self</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">if_true</span> <span class="k">do</span>
              <span class="n">block</span><span class="o">.</span><span class="n">call</span>

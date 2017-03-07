@@ -80,32 +80,32 @@
 <li>posso scaricarlo al massimo 3 volte</li>
 </ul>
 <p>A questo punto, dopo una <a href="http://www.gametrailers.com/user-movie/homer-simpson-angry/89292">breve incazzatura galattica</a> (il libro l’ho pagato 30 euro), decido che l’unica soluzione razionale è rimuovere il DRM dal pdf.</p>
-<p>La cosa, in realtà, è di una semplicità eclatante, a dimostrazione di quanto sia utile e fondamentale il DRM<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>.</p>
+<p>La cosa, in realtà, è di una semplicità eclatante, a dimostrazione di quanto sia utile e fondamentale il DRM<sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup>.</p>
 <p>Ho trovato <a href="http://imaddicted.ca/ebooks/using-inept-to-strip-drm/">questo</a> articolo, che spiega come fare, solo che non funzionava: “error decrypting book session key”. Allora ho indagato ancora po’ e ho scoperto che bastava una versione più aggiornata degli script che suggeriva di usare.</p>
 <p>In sostanza, per poter decrittare i pdf, servono:</p>
 <ol>
 <li><strike>Windows :( (purtroppo gli script richiedono windll…) </strike></li>
 <li><a href="http://www.python.it/download/">Python</a> installato</li>
 <li><a href="http://www.voidspace.org.uk/python/modules.shtml#pycrypto">Pycrypto</a> installato</li>
-<li>Questi due script: <a href="http://pastebin.com/sQSNwN8B">ineptpdf.pyw</a>, <a href="http://pastebin.com/HbHbebqY">ineptkey.pyw</a> (<a href="http://pastebin.com/f1182324a">ineptkeymac.py</a> su Mac) <sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></li>
+<li>Questi due script: <a href="http://pastebin.com/sQSNwN8B">ineptpdf.pyw</a>, <a href="http://pastebin.com/HbHbebqY">ineptkey.pyw</a> (<a href="http://pastebin.com/f1182324a">ineptkeymac.py</a> su Mac) <sup id="fnref-2"><a class="footnote-ref" href="#fn-2">2</a></sup></li>
 <li>Un’installazione di Adobe Digital Editions con registrato l’utente con cui si è scaricato il pdf</li>
 </ol>
 <p>A questo punto, dopo aver messo gli script e il pdf in una qualunque directory (per esempio c:\pdf), si esegue, da una command line in quella directory, ineptkey.pyw per ottenere la chiave dell’utente.</p>
-<p><img alt="image1" src="/images/drm-1.png" /></p>
+<p><img alt="image1" src="/images/drm-1.png"></p>
 <p>Poi si esegue <code>ineptpdf.pyw</code></p>
-<p><img alt="image2" src="/images/drm-2.png" /></p>
+<p><img alt="image2" src="/images/drm-2.png"></p>
 <p>inserendo il file contenente la chiave, il pdf protetto e il nome del file di output:</p>
-<p><img alt="image3" src="/images/drm-3.png" /></p>
+<p><img alt="image3" src="/images/drm-3.png"></p>
 <p>Premere Decrypt.</p>
 <p>Fatto.</p>
 <div class="footnote">
-<hr />
+<hr>
 <ol>
-<li id="fn:1">
-<p>Su <a href="http://pragprog.com/">questo</a> sito vendono libri tecnici senza DRM. Sono certo che loro non hanno problemi economici dovuti a questa assenza.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn-1">
+<p>Su <a href="http://pragprog.com/">questo</a> sito vendono libri tecnici senza DRM. Sono certo che loro non hanno problemi economici dovuti a questa assenza.&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn:2">
-<p>Grazie a Lance che ha suggerito l’utilizzo di questo script su Mac, sotto nei commenti.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<li id="fn-2">
+<p>Grazie a Lance che ha suggerito l’utilizzo di questo script su Mac, sotto nei commenti.&#160;<a class="footnote-backref" href="#fnref-2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

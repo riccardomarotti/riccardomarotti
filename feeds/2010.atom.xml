@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Riccardo Marotti</title><link href="http://blog.riccardomarotti.com/" rel="alternate"></link><link href="http://blog.riccardomarotti.com/feeds/2010.atom.xml" rel="self"></link><id>http://blog.riccardomarotti.com/</id><updated>2010-05-01T06:11:00+02:00</updated><entry><title>Dropbox sui Google Docs</title><link href="http://blog.riccardomarotti.com/post/560768127/dropbox-sui-google-docs" rel="alternate"></link><updated>2010-05-01T06:11:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-05-01:post/560768127/dropbox-sui-google-docs</id><summary type="html">&lt;blockquote&gt;&lt;/blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Riccardo Marotti - 2010</title><link href="http://blog.riccardomarotti.com/" rel="alternate"></link><link href="http://blog.riccardomarotti.com/feeds/2010.atom.xml" rel="self"></link><id>http://blog.riccardomarotti.com/</id><updated>2010-05-01T06:11:00+02:00</updated><entry><title>Dropbox sui Google Docs</title><link href="http://blog.riccardomarotti.com/post/560768127/dropbox-sui-google-docs" rel="alternate"></link><published>2010-05-01T06:11:00+02:00</published><updated>2010-05-01T06:11:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-05-01:/post/560768127/dropbox-sui-google-docs</id><summary type="html">&lt;blockquote&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&amp;#13;
+&amp;#13;
+&lt;blockquote&gt;&amp;#13;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Nota&lt;/strong&gt;: ho sospeso lo sviluppo di questa applicazione, dato che le API di google per accedere ai documenti funzionano solo per i Google Apps Premier Account, che hanno un costo che rendono sostanzialmente inutile un’applicazione del genere. Se e quando tali API funzioneranno anche per account gratuiti, finirò il …&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;&amp;#13;
 &amp;#13;
@@ -20,7 +25,15 @@
 &lt;ul&gt;&lt;li&gt;modulo per l’accesso ai docs&lt;/li&gt;&amp;#13;
 &lt;li&gt;modulo con la logica di sincronizzazione&lt;/li&gt;&amp;#13;
 &lt;li&gt;interfaccia grafica&lt;/li&gt;&amp;#13;
-&lt;/ul&gt;&lt;p&gt;Penso che, tra un mesetto (sia chiaro, non è una &lt;a target="_blank" href="/post/556460537/sulle-stime"&gt;stima&lt;/a&gt; ;), avrò bisogno di qualche beta tester: qualcuno si offre volontario?&lt;/p&gt;&lt;/p&gt;</summary><category term="Objective C"></category><category term="Cocoa"></category></entry><entry><title>Perché Objective C?</title><link href="http://blog.riccardomarotti.com/post/551290299/perche-objective-c" rel="alternate"></link><updated>2010-04-26T08:46:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-04-26:post/551290299/perche-objective-c</id><summary type="html">&lt;p&gt;Premesso che sono fermamente convinto che&lt;/p&gt;
+&lt;/ul&gt;&lt;p&gt;Penso che, tra un mesetto (sia chiaro, non è una &lt;a target="_blank" href="/post/556460537/sulle-stime"&gt;stima&lt;/a&gt; ;), avrò bisogno di qualche beta tester: qualcuno si offre volontario?&lt;/p&gt;&lt;/p&gt;</content><category term="Objective C"></category><category term="Cocoa"></category></entry><entry><title>Perché Objective C?</title><link href="http://blog.riccardomarotti.com/post/551290299/perche-objective-c" rel="alternate"></link><published>2010-04-26T08:46:00+02:00</published><updated>2010-04-26T08:46:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-04-26:/post/551290299/perche-objective-c</id><summary type="html">&lt;p&gt;Premesso che sono fermamente convinto che&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tools build productivity like keyboards build software.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;penso che programmare con Objective C presenti molti vantaggi.&lt;/p&gt;
+&lt;p&gt;Ma quali sono le peculiarità che lo rendono migliore della maggioranza degli altri linguaggi?&lt;/p&gt;
+&lt;h3&gt;Messaggi&lt;/h3&gt;
+&lt;p&gt;Gli oggetti sono manipolati inviando loro messaggi.&lt;/p&gt;
+&lt;p&gt;Potrà sembrare banale, ma questo permette …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Premesso che sono fermamente convinto che&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Tools build productivity like keyboards build software.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -36,12 +49,12 @@
 &lt;h3&gt;Espressività&lt;/h3&gt;
 &lt;p&gt;La sintassi dell’invio dei messaggi è incredibilmente &lt;a href="/post/540519014/asserzioni-in-objective-c"&gt;espressiva&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Questo metodo Ruby&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pippo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pippo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;in ObjC diventa&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt; &lt;span class="nl"&gt;insertString&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;pippo&amp;quot;&lt;/span&gt; &lt;span class="nl"&gt;atIndex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt; &lt;span class="nl"&gt;insertString&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;pippo&amp;quot;&lt;/span&gt; &lt;span class="nl"&gt;atIndex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -50,7 +63,7 @@
 &lt;p&gt;I tipi vengono “risolti” a run-time (la parola chiave “id” significa “qualunque tipo”). Ecco perché non servono overloading &amp;amp; C.&lt;/p&gt;
 &lt;h3&gt;Statico&lt;/h3&gt;
 &lt;p&gt;Se lo desideri, i tipi sono risolti a “compile-time”: questo evita tutti i problemi dei linguaggi dinamici.&lt;/p&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;p&gt;La maggioranza di queste caratteristiche sono ereditate da Smalltalk: naturalmente penso che Smalltalk sia il miglior linguaggio mai creato ;).&lt;/p&gt;
 &lt;p&gt;E allora perché non uso Smalltalk? Perché non mi soddisfa il look and feel delle applicazioni che produce. Essendo cross-platform, ha la sua versione delle finestre, dei bottoni, etc… Non si integra con il sistema.&lt;/p&gt;
-&lt;p&gt;Ecco perché la mia scelta è Objective C/Cocoa per le applicazioni desktop, Smalltalk/&lt;a href="http://www.seaside.st/"&gt;Seaside&lt;/a&gt; per quelle web.&lt;/p&gt;</summary><category term="Objective C"></category><category term="Smalltalk"></category><category term="Robe da nerd"></category><category term="Seaside"></category></entry><entry><title>Mi sono licenziato</title><link href="http://blog.riccardomarotti.com/post/531035690/mi-sono-licenziato-finalmente-posso-fare-la-cacca" rel="alternate"></link><updated>2010-04-18T19:19:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-04-18:post/531035690/mi-sono-licenziato-finalmente-posso-fare-la-cacca</id><summary type="html">&lt;p&gt;Finalmente posso fare la cacca quando mi pare.&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;Ecco perché la mia scelta è Objective C/Cocoa per le applicazioni desktop, Smalltalk/&lt;a href="http://www.seaside.st/"&gt;Seaside&lt;/a&gt; per quelle web.&lt;/p&gt;</content><category term="Objective C"></category><category term="Smalltalk"></category><category term="Robe da nerd"></category><category term="Seaside"></category></entry><entry><title>Mi sono licenziato</title><link href="http://blog.riccardomarotti.com/post/531035690/mi-sono-licenziato-finalmente-posso-fare-la-cacca" rel="alternate"></link><published>2010-04-18T19:19:00+02:00</published><updated>2010-04-18T19:19:00+02:00</updated><author><name>Riccardo Marotti</name></author><id>tag:blog.riccardomarotti.com,2010-04-18:/post/531035690/mi-sono-licenziato-finalmente-posso-fare-la-cacca</id><summary type="html">&lt;p&gt;Finalmente posso fare la cacca quando mi pare.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Finalmente posso fare la cacca quando mi pare.&lt;/p&gt;</content></entry></feed>

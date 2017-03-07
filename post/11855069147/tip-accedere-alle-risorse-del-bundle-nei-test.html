@@ -71,19 +71,19 @@
     </div>
     <div class="instapaper_body entry-content">
     <p>Per accedere ai file contenuti nel bundle di un’applicazione iOS, in genere si usa una cosa del tipo:</p>
-<div class="highlight"><pre> <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">];</span>
+<div class="highlight"><pre><span></span> <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">];</span>
 </pre></div>
 
 
 <p>Purtroppo, nei test, se si prova a usare il mainBundle per ottenere il path di una risorsa,</p>
-<div class="highlight"><pre> <span class="p">[</span><span class="n">bundle</span> <span class="nl">pathForResource</span><span class="p">:</span><span class="s">@&quot;aResource&quot;</span>  <span class="nl">ofType</span><span class="p">:</span><span class="s">@&quot;aType&quot;</span><span class="p">];</span>
+<div class="highlight"><pre><span></span> <span class="p">[</span><span class="n">bundle</span> <span class="nl">pathForResource</span><span class="p">:</span><span class="s">@&quot;aResource&quot;</span>  <span class="nl">ofType</span><span class="p">:</span><span class="s">@&quot;aType&quot;</span><span class="p">];</span>
 </pre></div>
 
 
 <p>si ottiene un bel <code>NULL</code>. </p>
 <p>Penso che questo succeda perché il mainBundle è il bundle associato alla directory dell’applicazione correntemente in esecuzione, che non è la nostra applicazione, ma il tester.</p>
 <p>Per ovviare a questo problema, si può usare</p>
-<div class="highlight"><pre> <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span>  <span class="nl">bundleForClass</span><span class="p">:[</span><span class="n">MyTestedClass</span>  <span class="k">class</span><span class="p">]];</span>
+<div class="highlight"><pre><span></span> <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span>  <span class="nl">bundleForClass</span><span class="p">:[</span><span class="n">MyTestedClass</span>  <span class="k">class</span><span class="p">]];</span>
 </pre></div>
 
 

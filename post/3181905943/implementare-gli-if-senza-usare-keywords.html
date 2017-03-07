@@ -75,7 +75,7 @@
 <p>Il succo della programmazione a oggetti è l’invio di messaggi; non è un caso se <a href="http://en.wikipedia.org/wiki/Smalltalk">Smalltalk</a> (l’unico linguaggio veramente a oggetti che conosco) implementa gli <code>if</code> come dei messaggi.</p>
 <p>In Ruby i booleani sono le due classi <code>TrueClass</code> e <code>FalseClass</code>.</p>
 <p>Per ottenere un comportamento simile a quello di Smalltalk, si possono aggiungere i metodi <code>if_true</code> e <code>if_false</code> a queste classi:</p>
-<div class="highlight"><pre> <span class="k">class</span> <span class="nc">TrueClass</span>
+<div class="highlight"><pre><span></span> <span class="k">class</span> <span class="nc">TrueClass</span>
      <span class="k">def</span> <span class="nf">if_true</span>
          <span class="k">yield</span>
      <span class="k">end</span>

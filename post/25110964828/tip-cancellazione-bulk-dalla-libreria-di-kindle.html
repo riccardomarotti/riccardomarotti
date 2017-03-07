@@ -74,9 +74,9 @@
 Questo rende, di fatto, impossibile la cancellazione di più di 50 elementi.</p>
 <p>Per ovviare a questa limitazione è possibile utilizzare questo <em>hack</em>.</p>
 <p>Anzitutto, filtrare i documenti in modo che siano visualizzati soltanto quelli che si vogliono cancellare (nel mio caso erano tutti gli articoli inviati da <a href="http://www.instapaper.com/">Instapaper</a>):</p>
-<p><img alt="KindleList" src="/images/kindle.png" /></p>
+<p><img alt="KindleList" src="/images/kindle.png"></p>
 <p>Poi aprire la console di Javascript ed eseguire questo codice:</p>
-<div class="highlight"><pre><span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;[name=&quot;contentName&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">element</span><span class="p">){</span>
+<div class="highlight"><pre><span></span><span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;[name=&quot;contentName&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">element</span><span class="p">){</span>
     <span class="nx">Fion</span><span class="p">.</span><span class="nx">deleteItem</span><span class="p">(</span><span class="s1">&#39;deleteItem_&#39;</span> <span class="o">+</span> <span class="nx">element</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
 <span class="p">});</span>
 </pre></div>

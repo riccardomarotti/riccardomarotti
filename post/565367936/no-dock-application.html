@@ -75,8 +75,8 @@
 <p><strong>Spike</strong>: come rimuovere un’applicazione dal dock e aggiungere alla barra di stato un’icona per l’applicazione, con relativo menu.</p>
 <p>Questo video mostra i risultati del primo spike che ho fatto riguardo l’<a href="/post/560768127/dropbox-sui-google-docs">applicazione</a> simil Dropbox che sto sviluppando.</p>
 <p>Per rimuovere l’icona dal dock, è sufficiente impostare a <code>True</code> la property <code>Applicaion is Agent</code>.</p>
-<p>Per aggiungere un'icona alla status bar, con relativo menu, bisogna configurare a run-time, per esempio nel metodo <code>awakeFromNib</code> dell’application delegate<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>, lo status item dell’applciazione:</p>
-<div class="highlight"><pre><span class="p">[</span><span class="n">statusItem</span> <span class="nl">setMenu</span><span class="p">:</span><span class="n">applicationMenu</span><span class="p">];</span>
+<p>Per aggiungere un'icona alla status bar, con relativo menu, bisogna configurare a run-time, per esempio nel metodo <code>awakeFromNib</code> dell’application delegate<sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup>, lo status item dell’applciazione:</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">statusItem</span> <span class="nl">setMenu</span><span class="p">:</span><span class="n">applicationMenu</span><span class="p">];</span>
 
 <span class="p">[</span><span class="n">statusItem</span> <span class="nl">setImage</span><span class="p">:[</span><span class="n">NSImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">name</span><span class="p">]];</span>
 </pre></div>
@@ -85,10 +85,10 @@
 <p>Nell’esempio ho usato l’icona di Dropbox:</p>
 <p>La musica è dei Blue Wave Theory, ed è reperibile su magnatune.</p>
 <div class="footnote">
-<hr />
+<hr>
 <ol>
-<li id="fn:1">
-<p>Quando si lancia l'applicazione, viene costruito il grafo degli oggetti codificati nel file <code>.xib</code> e vengono creati gli oggetti corrispondenti con le relative connessioni. Alla fine, prima di visualizzare l'applicazione, viene inviato il messaggio <code>awakeFromNib</code> a tutti gli oggetti che rispondono a tale messaggio.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn-1">
+<p>Quando si lancia l'applicazione, viene costruito il grafo degli oggetti codificati nel file <code>.xib</code> e vengono creati gli oggetti corrispondenti con le relative connessioni. Alla fine, prima di visualizzare l'applicazione, viene inviato il messaggio <code>awakeFromNib</code> a tutti gli oggetti che rispondono a tale messaggio.&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

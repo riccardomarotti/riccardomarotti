@@ -71,7 +71,7 @@
     </div>
     <div class="instapaper_body entry-content">
     <p>Quando si include un framework esterno in un progetto XCode, per esempio, GData, anche se compila tutto, può succedere che, una volta eseguita l’applicazione, ci sia un crash con un errore del tipo:</p>
-<div class="highlight"><pre><span class="n">dyld</span><span class="o">:</span> <span class="n">Library</span> <span class="n">not</span> <span class="n">loaded</span><span class="o">:</span> <span class="err">@</span><span class="n">loader_path</span><span class="sr">/../Frameworks/GData.framework/</span><span class="o">[</span><span class="err">…</span><span class="o">]</span>
+<div class="highlight"><pre><span></span><span class="n">dyld</span><span class="o">:</span> <span class="n">Library</span> <span class="n">not</span> <span class="n">loaded</span><span class="o">:</span> <span class="err">@</span><span class="n">loader_path</span><span class="sr">/../Frameworks/GData.framework/</span><span class="o">[</span><span class="err">…</span><span class="o">]</span>
 <span class="n">Referenced</span> <span class="n">from</span><span class="o">:[</span><span class="n">path</span> <span class="n">dell</span><span class="err">’</span><span class="n">eseguibile</span><span class="o">]</span>
 <span class="n">Reason</span><span class="o">:</span> <span class="n">image</span> <span class="n">not</span> <span class="n">found</span>
 </pre></div>
@@ -79,11 +79,11 @@
 
 <p>Questo succede perché l’eseguibile, linkato dinamicamente con il framework, non trova la libreria a runtime. Infatti la directory Frameworks non esiste all’interno del bundle dell’eseguibile.</p>
 <p>Per creare la directory e copiare al suo interno la libreria, basta aggiungere un “Copy Files Build Phase” (Click destro sul target, poi <code>Add -&gt; New Build Phase -&gt; New Copy Files Build Phase</code>):</p>
-<p><img alt="ima1" src="/images/framework-tip-1.png" /></p>
+<p><img alt="ima1" src="/images/framework-tip-1.png"></p>
 <p>e assicurarsi di selezionare Frameworks come Destination</p>
-<p><img alt="ima2" src="/images/framework-tip-2.png" /></p>
+<p><img alt="ima2" src="/images/framework-tip-2.png"></p>
 <p>Ora basta draggare il framework nel passo appena creato</p>
-<p><img alt="ima3" src="/images/framework-tip-3.png" /></p>
+<p><img alt="ima3" src="/images/framework-tip-3.png"></p>
 <p>In questo modo, la libreria sarà copiata opportunamente, e non ci saranno sorprese a runtime.</p>
     </div>
     
