@@ -611,9 +611,9 @@ La nuova traiettoria sarà una copia della precedente, con il nuovo punto aggiun
 &lt;/blockquote&gt;&amp;#13;
 &lt;p&gt;Oggi inizio ufficialmente lo sviluppo di un’applicazione che permetta di sincronizzare una directory locale con i Google Documents. In pratica vorrei fare una sorta di Dropbox che si appoggi a Google.&lt;/p&gt;&amp;#13;
 &lt;p&gt;Perché? &lt;/p&gt;&amp;#13;
-&lt;ul&gt;&lt;li&gt;50GB con Dropbox costano 100$ l’anno&lt;/li&gt;&amp;#13;
-&lt;li&gt;20GB sui Google Docs costano 5$ l’anno&lt;/li&gt;&amp;#13;
-&lt;li&gt;80GB sui Google Docs costano 20$ l’anno.&lt;/li&gt;&amp;#13;
+&lt;ul&gt;&lt;li&gt;50GB con Dropbox costano 100&amp;#36; l'anno&lt;/li&gt;&amp;#13;
+&lt;li&gt;20GB sui Google Docs costano 5&amp;#36; l'anno&lt;/li&gt;&amp;#13;
+&lt;li&gt;80GB sui Google Docs costano 20&amp;#36; l'anno.&lt;/li&gt;&amp;#13;
 &lt;/ul&gt;&lt;p&gt;Non credo servano ulteriori commenti :).&lt;/p&gt;&amp;#13;
 &lt;p&gt;Come avevo detto &lt;a target="_blank" href="/post/537851192/ma-davvero-agli-italiani-non-interessa-il-tdd"&gt;precedentemente&lt;/a&gt;, vorrei riportare qui gli sviluppi dello sviluppo :)&lt;/p&gt;&amp;#13;
 &lt;p&gt;Lo annuncio pubblicamente perché ritengo sia uno stimolo in più ad arrivare in fondo.&lt;/p&gt;&amp;#13;
